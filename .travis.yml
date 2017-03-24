@@ -1,0 +1,28 @@
+language: android
+before_install:
+- nvm install 6
+- node --version
+install:
+- npm install
+android:
+  components:
+  - platform-tools
+  - tools  - build-tools-23.0.1
+  - android-23
+  - extra-android-m2repository
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - addon-google_apis-google-19
+  - sys-img-armeabi-v7a-android-23
+  - sys-img-armeabi-v7a-android-17
+script:
+- npm run ci
+- cd android && ./gradlew assembleRelease
+deploy:
+  provider: releases
+  api_key:
+    secure: rIK5OQ1LLUJo3JnRi910ikMPiiXuKn0nB9Ylx6X3AagjLFQ0U5fWvla/jkLCPoDLi8DZ7pHKsL6zHc1/QomJXh4ZosAioyp4JALBMmfT33xODCHYyUcdcX7zoW+gmMEkJsfEPS36Sk8qCy9ndJZsbB+s+565GWxeUBeoldSVFxVxzC+eJn8ilV+ud9C7AfmKyHL8cvLn1GmPKA/jphnA/mZ9kkyH6jl7CnSrIbm4JFf5MBeZt+OwTFFo4NSAPkZKP5h+nymSHW5WBF3TcCUx9W1zb6+6IGZe7OwoWfwtLqsVdNhBvJxvnn+KHr8GGiOLg85QvLUf2MPh2GJt3foGFZm+nPuSgVt491iiEg/VqDIYO5l+UoE2nTuSevuus1skvdsm5bYZqd89O3lqe4vTpvp+NYJVUqGEh6il1Wkt3csmkrfLwJCmL6ilvkDuelaMoxmmma2cAItrwIXPbnO8D5XvdbHABDgsA/qrdJPeEhoLI7H5/YdnvbE8MvMuUrPIU9xuxNNDPVrqOKLWYq3ejhPifnGGX86crdeEgYfYOg/E2olQuyB9TOg9Db/cxDG7aO4mar0cm4r0EhL1SPmw2A11Xt10YOHd77nCUY4zub9jSzOC/k60qqMrOoTPxciO0OVfuym2fmU9fKjW/p/jlv+c/sY1K19kbJBRyphfCDo=
+  file: "$TRAVIS_BUILD_DIR/android/app/build/outputs/apk/app-release.apk"
+  on:
+    repo: bardonetao/pontonetao-rn
+tags: true
