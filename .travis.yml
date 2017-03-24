@@ -7,7 +7,8 @@ install:
 android:
   components:
   - platform-tools
-  - tools  - build-tools-23.0.1
+  - tools
+  - build-tools-23.0.1
   - android-23
   - extra-android-m2repository
   - extra-google-google_play_services
