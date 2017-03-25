@@ -1,7 +1,6 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ * Ponto Netao
+ * @cgomestw
  */
 
 import React, { Component } from 'react';
@@ -9,23 +8,31 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Alert,
+  Button,
+  Image
 } from 'react-native';
 
 export default class pontonetao extends Component {
+
+  _onPress() {
+    Alert.alert('Ponto marcado! \n'+ new Date().toDateString());
+   }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <Text style={styles.titulo}>
+          Ponto Netão!
         </Text>
+        <Image style={styles.logo} source={require('./img/ponto.png')} />
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
+          Clique no botão abaixo para marcar o ponto. {'\n'}
         </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <View style={styles.buttonContainer}>
+          <Button onPress={this._onPress} title="Manda Bala!" accessibilityLabel="Clique aqui para bater o ponto"/>
+        </View>
       </View>
     );
   }
@@ -38,16 +45,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
+  titulo: {
+    fontSize: 40,
     textAlign: 'center',
     margin: 10,
+    color: '#3399ff',
+    fontWeight: 'bold',
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain'
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
   },
+  buttonContainer: {
+    //backgroundColor: '#2E9298',
+    borderRadius: 10,
+    padding: 10,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.25
+  }
 });
 
 AppRegistry.registerComponent('pontonetao', () => pontonetao);
