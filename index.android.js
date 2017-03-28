@@ -1,6 +1,7 @@
 /**
  * Ponto Netao
  * @cgomestw
+ * @jlimo
  */
 
 import React, { Component } from 'react';
@@ -10,8 +11,9 @@ import {
   Text,
   View,
   Alert,
-  Button,
-  Image
+  //Button,
+  Image,
+  TouchableOpacity
 } from 'react-native';
 
 export default class pontonetao extends Component {
@@ -26,13 +28,15 @@ export default class pontonetao extends Component {
         <Text style={styles.titulo}>
           Ponto Netão!
         </Text>
-        <Image style={styles.logo} source={require('./img/ponto.png')} />
+        <TouchableOpacity onPress={this._onPress}>
+          <Image
+            style={styles.buttonContainer}
+            source={require('./img/fingerprint.png')}
+          />
+        </TouchableOpacity>
         <Text style={styles.instructions}>
-          Clique no botão abaixo para marcar o ponto. {'\n'}
+          Clique no botão acima para marcar o ponto. {'\n'}
         </Text>
-        <View style={styles.buttonContainer}>
-          <Button onPress={this._onPress} title="Manda Bala!" accessibilityLabel="Clique aqui para bater o ponto"/>
-        </View>
       </View>
     );
   }
@@ -46,10 +50,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   titulo: {
-    fontSize: 40,
+    fontSize: 35,
     textAlign: 'center',
     margin: 10,
-    color: '#3399ff',
+    color: '#000000',
     fontWeight: 'bold',
   },
   logo: {
@@ -63,9 +67,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   buttonContainer: {
-    //backgroundColor: '#2E9298',
     borderRadius: 10,
-    padding: 10,
+    borderWidth: 2,
+    borderColor: '#000000',
+    padding: 20,
+    width: 200,
+    height: 200,
+    //resizeMode: 'contain',
     shadowColor: '#000000',
     shadowOffset: {
       width: 0,
@@ -75,5 +83,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25
   }
 });
+
+// Removed for testing TouchableOpacity component
+//<Text style={styles.instructions}>
+//<Button onPress={this._onPress} title="Manda Bala!" accessibilityLabel="Clique aqui para bater o ponto"/>
+//<View style={styles.buttonContainer}>
+//<Image style={styles.logo} source={require('./img/ponto.png')} />
 
 AppRegistry.registerComponent('pontonetao', () => pontonetao);
