@@ -9,12 +9,38 @@ const {
   Image,
   TouchableOpacity,
   Alert,
+  ToastAndroid,
+  TouchableWithoutFeedback,
 } = require('react-native');
 const { Component } = React;
 
 import styles from '../css/appStyle';
+import BackgroundTimer from 'react-native-background-timer';
+
+// Start a timer that runs continuous after X milliseconds
+const intervalId = BackgroundTimer.setInterval(() => {
+    // this will be executed every 200 ms
+    // even when app is the the background
+    console.log('tic');
+    ToastAndroid.showWithGravity('Timeout 5000 for ever', ToastAndroid.SHORT, ToastAndroid.CENTER);
+}, 5000);
+
+// Cancel the timer when you are done with it
+//BackgroundTimer.clearInterval(intervalId);
+
+// Start a timer that runs once after X milliseconds
+const timeoutId = BackgroundTimer.setTimeout(() => {
+    // this will be executed once after 10 seconds
+    // even when app is the the background
+    console.log('tac');
+    ToastAndroid.showWithGravity('Timeout 1000 one time', ToastAndroid.SHORT, ToastAndroid.CENTER);
+}, 10000);
+
+// Cancel the timeout if necessary
+BackgroundTimer.clearTimeout(timeoutId);
 
 module.exports = class pontonetao extends Component {
+
   state = {
     isOpen: false,
     selectedItem: 'About',
@@ -67,7 +93,8 @@ class Button extends Component {
     if (this.props.onPress) {
       this.props.onPress(e);
     }
-    Alert.alert('Ponto marcado! \n'+ new Date().toDateString());
+    //Alert.alert('Ponto marcado! \n'+ new Date().toDateString());
+    ToastAndroid.showWithGravity('Ponto marcado! \n'+ new Date().toDateString(), ToastAndroid.SHORT, ToastAndroid.CENTER);
   }
 
   render() {
