@@ -1,32 +1,30 @@
-import Realm from 'realm'
+//import Realm from 'realm';
+var Realm = require('realm');
 
-class Ponto {
-  //static get () { return realm.objects(Ponto.schema.name) }
-  static schema = {
-    name: 'Ponto',
-    primaryKey: 'id',
+
+class Pink extends Realm.Object {}
+
+Pink.schema = {
+    name: 'Pink',
     properties: {
-      id: {type: 'int'},
-      data: {type: 'date'}
+      data: {type: 'string'}
     }
-  }
 }
 
-
 // Creates a new Ponto
-export const createPonto = (value, horario_ponto) => {
-  realm.write(() => {
-    realm.create(Ponto.schema.name, {
-      id: value,
-      data: horario_ponto
+createPonto = (horario_ponto) => {
+  Pink.write(() => {
+    Pink.create('Pink', {
+      data: horario_ponto,
     });
   });
 }
 
-export const getPontos = () => {
-  let pontos = [realm.objects('Ponto')] // retrieves all Pontos from the Realm
+getPontos = () => {
+  let pontos = Pink.objects('Pink').sorted('data'); // retrieves all Pontos from the Realm
   return pontos
 }
 
 // Create Realm DB
-const realm = new Realm({schema: [Ponto]})
+export default new Realm({schema: [Pink], schemaVersion: 7})
+//const realm = new Realm({schema: [Ponto], schemaVersion: 4})

@@ -3,7 +3,7 @@
     "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
-  "keepEmptyPriority": false,
+  "keepEmptyPriority": true,
   "code": {
     "include_lists": [
       "TODO",
@@ -37,5 +37,10 @@
     "pedantic": false,
     "smartLists": true,
     "langPrefix": "language-"
+  },
+  "sync": {
+    "id": "58dbb13eb317d35e613e206f",
+    "name": "pontonetao",
+    "useImdoneioForPriority": true
   }
 }

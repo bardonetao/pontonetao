@@ -1,8 +1,8 @@
 const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./menu');
-const Realm = require('realm')
-const Store = require('../model/ponto')
+const Realm = require('realm');
+//const Store = require('../model/ponto');
 
 const {
   StyleSheet,
@@ -15,13 +15,43 @@ const {
 const { Component } = React;
 
 import styles from '../css/appStyle';
-import store  from '../model/ponto.js';
+import Pink from '../model/ponto';
+import { ListView } from 'realm/react-native'
+
+//let realm = new Realm({
+  //schema: [{name: 'Ponto', properties: {data: 'string'}}], schemaVersion: 3
+//})
+
+let ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+let pontos = Pink.objects('Pink').sorted('data');
 
 module.exports = class pontonetao extends Component {
   state = {
     isOpen: false,
     selectedItem: 'About',
   };
+
+    constructor(props)
+    {
+      super(props);
+
+      Pink.addListener('change', () => {
+        this.setState({dataSource: ds.cloneWithRows(Pink.objects('Pink').sorted('data'))});
+      });
+
+      this.state = {
+        dataSource: ds.cloneWithRows(pontos),
+        items: pontos,
+      };
+      this.componentDidMount = this.componentDidMount.bind(this);
+
+    }
+
+  componentDidMount() {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this.state.items),
+    });
+  }
 
   toggle() {
     this.setState({
@@ -42,7 +72,6 @@ module.exports = class pontonetao extends Component {
 
   render() {
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-
     return (
       <SideMenu
         menu={menu}
@@ -56,7 +85,12 @@ module.exports = class pontonetao extends Component {
             Clique no botão abaixo para marcar o ponto. {'\n'}
           </Text>
           <Button handlePress={() => this.toggle()}/>
-
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={(rowData) => <Text>{rowData.data}</Text>}
+          />
+          <Text style={styles.welcome}>
+         </Text>
           <Text style={styles.instructions}>
             Current selected menu item is: {this.state.selectedItem}
           </Text>
@@ -67,18 +101,13 @@ module.exports = class pontonetao extends Component {
 };
 
 class Button extends Component {
-  saveData = (id, novo_ponto) => {
-    Store.createPonto(id, novo_ponto)
-  }
-
   handlePress(e) {
-    novo_ponto = new Date();
+    novo_ponto = new Date().toDateString();
     if (this.props.onPress) {
       this.props.onPress(e);
     }
     Alert.alert('Ponto marcado! \n'+ novo_ponto);
-    this.saveData(20, novo_ponto) //TODO: random id
-    //TODO: verify ponto is really storage
+    Pink.createPonto(novo_ponto);
   }
 
 
