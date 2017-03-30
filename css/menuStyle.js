@@ -17,8 +17,8 @@ module.exports = {
     height: 56
   },
   headerIcon: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     borderRadius: 45,
     marginBottom: 10,
     alignItems: 'center',
@@ -37,7 +37,7 @@ module.exports = {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    height: 80,
+    height: 40,
     marginBottom: 10
   },
   listItemTitle: {
@@ -46,8 +46,8 @@ module.exports = {
     color: '#fff'
   },
   listItemImage: {
-    width: 80,
-    height: 80,
+    width: 30,
+    height: 30,
     borderRadius: 7,
     marginRight: 10,
   },

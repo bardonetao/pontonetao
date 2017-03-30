@@ -59,10 +59,6 @@ componentDidMount() {
             Clique no botão abaixo para marcar o ponto. {'\n'}
           </Text>
           <Button handlePress={() => this.toggle()}/>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Text>{rowData.data}</Text>}
-          />
         </View>
     );
   }

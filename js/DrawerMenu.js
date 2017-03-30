@@ -7,7 +7,8 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Linking
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -36,10 +37,10 @@ class DrawerMenu extends Component {
           </View>
           <View style={styles.headerInfo} key={1}>
             <Text style={styles.headerTitle} key={0}>
-              Lighthouses
+              Ponto Netão
             </Text>
-            <Text style={styles.headerEmail} key={1}>
-              pablodarde@gmail.com
+            <Text style={styles.headerEmail} key={1} onPress={() => Linking.openURL('https://github.com/bardonetao/pontonetao')}  >
+              Fork us on Github!
             </Text>
           </View>
         </View>
@@ -51,7 +52,7 @@ class DrawerMenu extends Component {
                 style={styles.listItem}
                 onPress={this.navigateTo.bind(this, item.index)}
               >
-                <Image source={{ uri: item.thumb}} style={styles.listItemImage} />
+                <Icon style={styles.listItemImage} name="md-flame" size={30} color="#fff" />
                 <Text style={styles.listItemTitle}>{item.label}</Text>
               </TouchableOpacity>
             ))}

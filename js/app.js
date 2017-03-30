@@ -28,7 +28,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { routes, toolbarActions } from './data.service';
 import PaginaInicial from './paginaInicial'
 import PaginaHistorico from './paginaHistorico'
-import PaginaConfirmacao from './paginaConfirmacao'
 import DrawerMenu from './DrawerMenu'
 
 
@@ -169,8 +168,6 @@ module.exports = class pontonetao extends Component {
                 case 0:
                   return <PaginaInicial />;
                 case 1:
-                  return <PaginaConfirmacao index={idx} />;
-                case 2:
                   return <PaginaHistorico index={idx} />;
                 default:
                   return <PaginaInicial />;

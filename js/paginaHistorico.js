@@ -17,25 +17,54 @@ import Button from 'react-native-button';
 import {Actions} from 'react-native-router-flux';
 
 import styles from '../css/appStyle';
+import realm from '../model/ponto';
+import {createPonto, getPontos} from '../model/ponto'
+import { ListView } from 'realm/react-native'
+
+let ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+let pontos = getPontos();
+
+  class PaginaHistorico extends Component {
+    constructor(props)
+    {
+      super(props);
+      // add listener when has changes
+      realm.addListener('change', () => {
+        this.setState({dataSource: ds.cloneWithRows(getPontos())});
+      });
+
+      // initial state
+      this.state = {
+        dataSource: ds.cloneWithRows(pontos),
+        items: pontos,
+      };
+      this.componentDidMount = this.componentDidMount.bind(this);
+
+    }
+
+    componentDidMount() {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.state.items),
+      });
+    }
 
 
-var PaginaHistorico = React.createClass({
   render() {
     return (
         <View style={styles.container}>
           <Text style={styles.titulo}>
-            Ponto Netão!
+            Histórico de Marcações
           </Text>
           <Text style={styles.instructions}>
-            Clique no botão abaixo para marcar o ponto. {'\n'}
+            Veja abaixo os pontos marcados. {'\n'}
           </Text>
-          <Button handlePress={() => this.toggle()}/>
-          <Text style={styles.titulo}>{'Screen 2'} </Text>
-          <Button onPress={Actions.PaginaInicial}>{'Pagina Inicial'}</Button>
-          <Text style={styles.instructions}>{'Awesome stuffs are here'}</Text>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={(rowData) => <Text>{rowData.data}</Text>}
+          />
         </View>
     );
   }
-});
+};
 
 module.exports = PaginaHistorico;
