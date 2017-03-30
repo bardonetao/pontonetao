@@ -1,8 +1,7 @@
 const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./menu');
-const Realm = require('realm');
-//const Store = require('../model/ponto');
+const DateFormat = require('dateformat');
 
 const {
   StyleSheet,
@@ -15,15 +14,12 @@ const {
 const { Component } = React;
 
 import styles from '../css/appStyle';
-import Pink from '../model/ponto';
+import realm from '../model/ponto';
+import {createPonto, getPontos} from '../model/ponto'
 import { ListView } from 'realm/react-native'
 
-//let realm = new Realm({
-  //schema: [{name: 'Ponto', properties: {data: 'string'}}], schemaVersion: 3
-//})
-
 let ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-let pontos = Pink.objects('Pink').sorted('data');
+let pontos = getPontos();
 
 module.exports = class pontonetao extends Component {
   state = {
@@ -34,11 +30,12 @@ module.exports = class pontonetao extends Component {
     constructor(props)
     {
       super(props);
-
-      Pink.addListener('change', () => {
-        this.setState({dataSource: ds.cloneWithRows(Pink.objects('Pink').sorted('data'))});
+      // add listener when has changes
+      realm.addListener('change', () => {
+        this.setState({dataSource: ds.cloneWithRows(getPontos())});
       });
 
+      // initial state
       this.state = {
         dataSource: ds.cloneWithRows(pontos),
         items: pontos,
@@ -102,12 +99,12 @@ module.exports = class pontonetao extends Component {
 
 class Button extends Component {
   handlePress(e) {
-    novo_ponto = new Date().toDateString();
+    horario_ponto = DateFormat(new Date(), "dd-mm-yyyy | HH:MM:ss");
     if (this.props.onPress) {
       this.props.onPress(e);
     }
-    Alert.alert('Ponto marcado! \n'+ novo_ponto);
-    Pink.createPonto(novo_ponto);
+    Alert.alert('Ponto marcado! \n'+ horario_ponto);
+    createPonto(horario_ponto);
   }
 
 

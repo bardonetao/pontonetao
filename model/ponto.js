@@ -1,30 +1,32 @@
-//import Realm from 'realm';
 var Realm = require('realm');
 
+class Ponto extends Realm.Object {}
 
-class Pink extends Realm.Object {}
-
-Pink.schema = {
-    name: 'Pink',
+Ponto.schema = {
+    name: 'Ponto',
     properties: {
       data: {type: 'string'}
     }
 }
 
 // Creates a new Ponto
-createPonto = (horario_ponto) => {
-  Pink.write(() => {
-    Pink.create('Pink', {
-      data: horario_ponto,
-    });
+export function createPonto(horario_ponto){
+  pontoDB.write(() => {
+    pontoDB.create('Ponto', {data: horario_ponto});
   });
 }
 
-getPontos = () => {
-  let pontos = Pink.objects('Pink').sorted('data'); // retrieves all Pontos from the Realm
+export function getPontos() {
+  let pontos = pontoDB.objects('Ponto').sorted('data'); // retrieves all Pontos from the Realm
   return pontos
 }
 
+//export function onChangedDB(ds){
+  //pontoDB.addListener('change', () => {
+    //this.setState({dataSource: ds.cloneWithRows(getPontos())});
+  //});
+//}
+
 // Create Realm DB
-export default new Realm({schema: [Pink], schemaVersion: 7})
-//const realm = new Realm({schema: [Ponto], schemaVersion: 4})
+let pontoDB = new Realm({schema: [Ponto], schemaVersion: 14});
+export default pontoDB;
