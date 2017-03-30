@@ -122,10 +122,9 @@ module.exports = class pontonetao extends Component {
 
     componentWillUnmount() {
       BackAndroid.removeEventListener('hardwareBackPress', this.handlesBackButton);
-  }
+    }
 
   render() {
-
     return (
 
       <DrawerLayoutAndroid
