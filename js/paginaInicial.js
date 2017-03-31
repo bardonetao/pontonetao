@@ -21,6 +21,7 @@ import styles from '../css/appStyle';
 import realm from '../model/ponto';
 import {createPonto, getPontos} from '../model/ponto'
 import { ListView } from 'realm/react-native'
+import {Platform} from 'react-native'
 
 let ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
 let pontos = getPontos();
@@ -70,8 +71,11 @@ class Button extends Component {
     if (this.props.onPress) {
       this.props.onPress(e);
     }
-    //Alert.alert('Ponto marcado! \n'+ new Date().toDateString());
-    ToastAndroid.showWithGravity('Ponto marcado! \n'+ horario_ponto, ToastAndroid.SHORT, ToastAndroid.CENTER);
+    if (Platform.OS === 'android') {
+      ToastAndroid.showWithGravity('Ponto marcado! \n'+ horario_ponto, ToastAndroid.SHORT, ToastAndroid.CENTER);
+    }else {
+      Alert.alert('Ponto marcado! \n'+ horario_ponto);
+    }
     createPonto(horario_ponto);
   }
 

@@ -3,7 +3,7 @@ import React from 'react';
 import BackgroundTimer from 'react-native-background-timer';
 const {
   Text,
-  ToastAndroid,
+  ToastAndroid
 } = require('react-native');
 const { Component } = React;
 
@@ -11,6 +11,7 @@ const { Component } = React;
 const intervalId = null;
 const timeoutId = null;
 
+import {Platform} from 'react-native';
 const bgTimer = {
 
     bgTimerStart(timeMilliseconds) {
@@ -19,7 +20,11 @@ const bgTimer = {
             // this will be executed every 200 ms
             // even when app is the the background
             console.log('Intervalo ' + timeMilliseconds);
-            ToastAndroid.showWithGravity('Intervalo ' + timeMilliseconds + ' for ever', ToastAndroid.SHORT, ToastAndroid.CENTER);
+            if (Platform.OS === 'android') {
+              ToastAndroid.showWithGravity('Intervalo ' + timeMilliseconds + ' for ever', ToastAndroid.SHORT, ToastAndroid.CENTER);
+            }else {
+              //TODO: implementing toast ios
+            }
         }, timeMilliseconds);
     },
 
@@ -31,7 +36,11 @@ const bgTimer = {
 
         const intervalId = null;
         console.log('Fim do Timer');
-        ToastAndroid.showWithGravity('Fim do Timer', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        if (Platform.OS === 'android') {
+          ToastAndroid.showWithGravity('Fim do Timer', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }else{
+          //TODO: implementing toast ios
+        }
     },
 
     bgTimeoutStart(timeMilliseconds) {
@@ -41,7 +50,11 @@ const bgTimer = {
             // this will be executed once after 10 seconds
             // even when app is the the background
             console.log('Fim do Timeout');
-            ToastAndroid.showWithGravity('Timeout 1000 one time', ToastAndroid.SHORT, ToastAndroid.CENTER);
+            if (Platform.OS === 'android') {
+              ToastAndroid.showWithGravity('Timeout 1000 one time', ToastAndroid.SHORT, ToastAndroid.CENTER);
+            }else {
+              //TODO: implementing toast ios
+            }
         }, timeMilliseconds);
     },
 
@@ -50,7 +63,11 @@ const bgTimer = {
         BackgroundTimer.clearTimeout(timeoutId);
         const intervalId = null;
         console.log('Finalizar Timeout');
-        ToastAndroid.showWithGravity('Finalizar Timeout', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        if (Platform.OS === 'android') {
+          ToastAndroid.showWithGravity('Finalizar Timeout', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }else {
+          //TODO: implementing toast ios
+        }
     }
 };
 

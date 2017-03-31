@@ -7,8 +7,7 @@ const {
   Image,
   TouchableOpacity,
   Alert,
-  ToastAndroid,
-  TouchableWithoutFeedback,
+  TouchableWithoutFeedback
 } = require('react-native');
 
 const { Component } = React;

@@ -8,18 +8,20 @@ const {
   Image,
   TouchableOpacity,
   Alert,
-  ToastAndroid,
   TouchableWithoutFeedback,
   Navigator,
   BackAndroid,
   DrawerLayoutAndroid,
-  ToolbarAndroid
+  ToolbarAndroid,
+  TabBarIOS
 } = require('react-native');
 
 const { Component } = React;
 
 import styles from '../css/appStyle';
 import BackgroundTimer from 'react-native-background-timer';
+import {Platform} from 'react-native';
+import DrawerLayout from 'react-native-drawer-layout';
 
 Timer.bgTimeoutStart(5000);
 
@@ -34,6 +36,7 @@ import DrawerMenu from './DrawerMenu'
 import { Router, Route, Schema, Actions, } from 'react-native-router-flux'
 
 
+//export default class pontonetao extends Component {
 module.exports = class pontonetao extends Component {
 
   constructor(props) {
@@ -116,16 +119,20 @@ module.exports = class pontonetao extends Component {
     }
 
     componentWillMount(){
-      BackAndroid.addEventListener('hardwareBackPress', this.handlesBackButton);
+      if (Platform.OS === 'android'){
+         BackAndroid.addEventListener('hardwareBackPress', this.handlesBackButton);
+       }
     }
 
     componentWillUnmount() {
-      BackAndroid.removeEventListener('hardwareBackPress', this.handlesBackButton);
+      if (Platform.OS === 'android'){
+        BackAndroid.removeEventListener('hardwareBackPress', this.handlesBackButton);
+      }
     }
 
   render() {
+    if(Platform.OS === 'android'){
     return (
-
       <DrawerLayoutAndroid
         drawerWidth={300}
         ref={(drawerElement) => { this.DRAWER = drawerElement; }}
@@ -133,12 +140,9 @@ module.exports = class pontonetao extends Component {
         onDrawerOpen={this.setDrawerState}
         onDrawerClose={this.setDrawerState}
         renderNavigationView={() => <DrawerMenu navigate={this.navigateTo} />}
-      >
+        >
         <Icon.ToolbarAndroid
           titleColor='#fff'
-          // title='Lighthouses'
-            //--> Remove the View child of the Toolbar if you
-            // don't need a Icon.
           navIconName='md-menu'
           onIconClicked={this.toggleDrawer}
           actions={toolbarActions}
@@ -180,5 +184,59 @@ module.exports = class pontonetao extends Component {
         />
       </DrawerLayoutAndroid>
     );
+    }else {
+      return (
+        <DrawerLayout
+          drawerWidth={300}
+          ref={(drawerElement) => { this.DRAWER = drawerElement; }}
+          drawerPosition={DrawerLayout.positions.left}
+          onDrawerOpen={this.setDrawerState}
+          onDrawerClose={this.setDrawerState}
+          renderNavigationView={() => <DrawerMenu navigate={this.navigateTo} />}
+          >
+          <Icon.TabBarItemIOS
+            titleColor='#fff'
+            iconName='md-menu'
+            onIconClicked={this.toggleDrawer}
+            actions={toolbarActions}
+            onActionSelected={this._onActionSelected}
+            style={styles.appBar}
+            overflowIconName="md-more"
+          >
+            <View style={styles.appBarLogo}>
+              <TouchableOpacity
+                onPress={this.navigateTo.bind(this, 0)}
+              >
+                <Icon name="md-alarm" size={30} color="#fff" />
+              </TouchableOpacity>
+              <Text
+                style={styles.appBarTitle}
+                numberOfLines={1}
+              >
+                {routes[this.state.routes[this.state.routes.length - 1]].title}
+              </Text>
+            </View>
+          </Icon.TabBarItemIOS>
+          <Navigator
+              initialRoute={routes[0]}
+              renderScene={(route, navigator) => {
+                const idx = route.index - 1;
+                switch (route.index) {
+                  case 0:
+                    return <PaginaInicial />;
+                  case 1:
+                    return <PaginaHistorico index={idx} />;
+                  default:
+                    return <PaginaInicial />;
+                }
+              }}
+              configureScene={(route, routeStack) =>
+                Navigator.SceneConfigs.FloatFromRight
+              }
+              ref={(nav) => { this._navigator = nav; }}
+          />
+        </DrawerLayout>
+      );
+    }
   }
 };

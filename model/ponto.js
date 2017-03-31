@@ -21,12 +21,6 @@ export function getPontos() {
   return pontos
 }
 
-//export function onChangedDB(ds){
-  //pontoDB.addListener('change', () => {
-    //this.setState({dataSource: ds.cloneWithRows(getPontos())});
-  //});
-//}
-
 // Create Realm DB
 let pontoDB = new Realm({schema: [Ponto], schemaVersion: 14});
 export default pontoDB;
